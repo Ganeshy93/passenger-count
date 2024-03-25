@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="content">
+    <iframe id="background-video" src="https://www.youtube.com/embed/gLUrGSAMBLw?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1&modestbranding=1" style="position: fixed; width: 100%; left: 50%; top: 50%; height: 100%; object-fit: cover; transform: translate(-50%, -50%); z-index: -1;" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <div class="card">
+      <div class="card-content">
+        <h2>Passenger Counter</h2>
+        <p id="count">Passenger count: 0</p>
+        <p id="time">Current time: </p>
+        <div>
+          <!-- Input field to specify the number of passengers to add -->
+          <input type="number" id="passenger-count-input" min="1" value="1">
+          <button id="add-passenger">Add Passenger(s)</button>
+          <button id="remove-passenger">Remove Passenger</button>
+        </div>
+        <div id="history">
+          <h3>History:</h3>
+        </div>
+        <div id="message"></div> <!-- Message box element -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var count = 0;
+      var history = [];
+      var messageBox = document.getElementById('message'); // Get the message box element
+
+      function updateTime() {
+        document.getElementById('time').textContent = 'Current time: ' + new Date().toLocaleTimeString();
+      }
+
+      function incrementCount() {
+        count++;
+        history.push({count: count, time: new Date().toLocaleTimeString()});
+        document.getElementById('count').textContent = 'Passenger count: ' + count;
+        updateHistory();
+        showMessage('Passenger added. Total count: ' + count); // Show message
+      }
+
+      function decrementCount() {
+        if (count > 0) {
+          count--;
+          history.pop(); // Remove the last history data when a passenger is removed
+          document.getElementById('count').textContent = 'Passenger count: ' + count;
+          updateHistory();
+          showMessage('Passenger removed. Total count: ' + count); // Show message
+        }
+      }
+
+      function updateHistory() {
+        var historyDiv = document.getElementById('history');
+        historyDiv.innerHTML = '<h3>History:</h3>';
+        for (var i = 0; i < history.length; i++) {
+          var item = document.createElement('div');
+          item.className = 'history-item';
+          item.textContent = 'Passenger count: ' + history[i].count + ', Time: ' + history[i].time;
+          historyDiv.appendChild(item);
+        }
+      }
+
+      function showMessage(msg) {
+        messageBox.textContent = msg;
+        setTimeout(function() {
+          messageBox.textContent = ''; // Clear the message after a short delay
+        }, 2000); // Adjust the delay as needed
+      }
+
+      document.getElementById('add-passenger').addEventListener('click', function() {
+        var passengerCount = parseInt(document.getElementById('passenger-count-input').value);
+        if (!isNaN(passengerCount) && passengerCount > 0) {
+          for (var i = 0; i < passengerCount; i++) {
+            incrementCount();
+          }
+        }
+      });
+
+      document.getElementById('remove-passenger').addEventListener('click', decrementCount);
+
+      setInterval(updateTime, 1000);
+    });
+  </script>
+</body>
+</html>
