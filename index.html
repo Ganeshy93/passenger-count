@@ -12,7 +12,6 @@
         <p id="count">Passenger count: 0</p>
         <p id="time">Current time: </p>
         <div>
-          <!-- Input field to specify the number of passengers to add -->
           <input type="number" id="passenger-count-input" min="1" value="1">
           <button id="add-passenger">Add Passenger(s)</button>
           <button id="remove-passenger">Remove Passenger</button>
@@ -20,7 +19,7 @@
         <div id="history">
           <h3>History:</h3>
         </div>
-        <div id="message"></div> <!-- Message box element -->
+        <div id="message"></div>
       </div>
     </div>
   </div>
@@ -29,7 +28,7 @@
     document.addEventListener('DOMContentLoaded', function () {
       var count = 0;
       var history = [];
-      var messageBox = document.getElementById('message'); // Get the message box element
+      var messageBox = document.getElementById('message');
 
       function updateTime() {
         document.getElementById('time').textContent = 'Current time: ' + new Date().toLocaleTimeString();
@@ -40,16 +39,16 @@
         history.push({count: count, time: new Date().toLocaleTimeString()});
         document.getElementById('count').textContent = 'Passenger count: ' + count;
         updateHistory();
-        showMessage('Passenger added. Total count: ' + count); // Show message
+        showMessage('Passenger added. Total count: ' + count);
       }
 
       function decrementCount() {
         if (count > 0) {
           count--;
-          history.pop(); // Remove the last history data when a passenger is removed
+          history.pop();
           document.getElementById('count').textContent = 'Passenger count: ' + count;
           updateHistory();
-          showMessage('Passenger removed. Total count: ' + count); // Show message
+          showMessage('Passenger removed. Total count: ' + count);
         }
       }
 
@@ -67,8 +66,8 @@
       function showMessage(msg) {
         messageBox.textContent = msg;
         setTimeout(function() {
-          messageBox.textContent = ''; // Clear the message after a short delay
-        }, 2000); // Adjust the delay as needed
+          messageBox.textContent = '';
+        }, 2000);
       }
 
       document.getElementById('add-passenger').addEventListener('click', function() {
